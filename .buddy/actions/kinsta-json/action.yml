@@ -1,0 +1,19 @@
+name: "Kinsta_JSON_Parser"
+inputs:
+  url:
+    name: "URL you want to test"
+    required: true
+  jq_command:
+    name: "JQ parse command"
+    required: true
+output:
+  variables:
+    result:
+      example: "Variable with the results of the JQ on API"
+execute_commands:
+  - apt-get update && apt-get install -y curl jq
+  - api=`curl -s $url`
+  - result=`jq $jq_command <<< $api`
+  - export result
+docker_image_name: "ubuntu"
+docker_image_tag: "latest"
